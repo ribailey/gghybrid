@@ -1,0 +1,24 @@
+Package: gghybrid
+Title: Evolutionary Analysis of Hybrids and Hybrid Zones
+Version: 0.0.0.9000
+Authors@R: person("Richard", "Bailey", email = "richardianbailey@gmail.com", role = c("aut", "cre"))
+Description: Hypothesis-testing on bi-allelic genomic data using Bayesian 
+    hybrid index and genomic cline parameter estimation, including data input 
+	and preparation functions, and some useful plots. It takes a structure 
+	file or a similar data table as input, identifies the allele with 
+	relatively higher frequency in each parental reference sample, calculates 
+	quantities such as allele frequency for parental reference samples, allows 
+	filtering based on these quantities, and creates a genotype table ordered 
+	by allele parent-of-origin if desired. Hybrid index and genomic cline 
+	parameters can be pooled or fixed and model comparison carried out using 
+	the Bayesian widely applicable information criterion (waic).
+Depends: R (>= 3.4.3),
+    data.table (>= 1.10.4-3)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: corpcor (>= 1.6.9),
+    RColorBrewer (>= 1.1-2),
+    tester (>= 0.1.7),
+    truncnorm (>= 1.0-8)
+RoxygenNote: 6.0.1
