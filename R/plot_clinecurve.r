@@ -125,8 +125,8 @@ plot_clinecurve = function(ggcline.object,data.prep.object,esth.object,
                 id = c(test.subject,"h_posterior_mode"),variable.name = locus.column, 
                 value.name = "genotype");
             prep.hi.geno[,genotype:=genotype/PLOIDY];
-
-            setkey(prep.hi.geno,loc);
+		
+            setkeyv(prep.hi.geno,locus.column);###was setkey(prep.hi.geno,loc)###
 
             for(i in 1:length(plot.data)){
                 points(prep.hi.geno[cline.locus[i],
