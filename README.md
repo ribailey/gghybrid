@@ -1,5 +1,5 @@
 # gghybrid
-R package for analysis of hybrids and hybrid zones.
+R package for analysis of hybrids and hybrid zones. Currently includes hybrid index and genomic cline estimation for bi-allelic genomic data.
 
 Functions should be run in the following order:
 1. read.data  #Read in a data file in structure format or similar#
