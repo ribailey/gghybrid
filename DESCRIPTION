@@ -1,6 +1,7 @@
 Package: gghybrid
 Title: Evolutionary Analysis of Hybrids and Hybrid Zones
 Version: 0.0.0.9000
+Date: 2018-04-15
 Authors@R: person("Richard", "Bailey", email = "richardianbailey@gmail.com", role = c("aut", "cre"))
 Description: Hypothesis-testing on bi-allelic genomic data using Bayesian 
     hybrid index and genomic cline parameter estimation, including data input 
