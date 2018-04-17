@@ -301,13 +301,13 @@ esth= function(data.prep.object,read.data.precols,
 
     output=list();
         output$hi=MET;
+	output$test.subject=test.subject;
 
     if(return.likmeans==TRUE){
         d3[,index:=NULL][,loglik:=NULL][,postmean.exp.loglik.1:=NULL][,
             postmean.loglik.1:=NULL][,postvar.loglik:=NULL][,postvar.loglik.1:=NULL];
         setnames(d3,"postvar.true.loglik","postvar.loglik");
         output$likmeans=d3;
-        output$test.subject=test.subject;
                              };
 
     cat(paste("Done"),fill=1);
