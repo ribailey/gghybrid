@@ -6,6 +6,10 @@ To cite package ‘gghybrid’ in publications use:
   Richard Ian Bailey (2018). gghybrid: Evolutionary Analysis of Hybrids and
   Hybrid Zones. R package version 0.0.0.9000.
 
+Example code is in the file 'Example_code_RIBailey_17April2018.R ', and the data set used by this code is 'RB_Italy_ggcline_precol_headers_haploidND2.csv ', which was downloaded and prepared from here: https://www.datadryad.org/resource/doi:10.5061/dryad.v6f4d
+
+Examples of plots produced by the package are 'cline_curve_plot.pdf ' and 'hybrid_index_plot.pdf '.
+
 Basic functionality of the package is to read in SNP data in the form of structure files or similar, prepare data for analysis, carry out Bayesian MCMC hybrid index and genomic cline estimation, compare models (for either hybrid index or genomic clines) run on the same data set using the widely applicable information criterion (waic), and make plots of hybrid indices or cline curves.
 
 gghybrid can be downloaded from within R using the following two lines of code:
