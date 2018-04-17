@@ -3,7 +3,7 @@ R package for analysis of hybrids and hybrid zones. Currently includes hybrid in
 
 To cite package ‘gghybrid’ in publications use:
 
-  Richard Bailey (2018). gghybrid: Evolutionary Analysis of Hybrids and
+  Richard Ian Bailey (2018). gghybrid: Evolutionary Analysis of Hybrids and
   Hybrid Zones. R package version 0.0.0.9000.
 
 Basic functionality of the package is to read in SNP data in the form of structure files or similar, prepare data for analysis, carry out Bayesian MCMC hybrid index and genomic cline estimation, compare models (for either hybrid index or genomic clines) run on the same data set using the widely applicable information criterion (waic), and make plots of hybrid indices or cline curves.
