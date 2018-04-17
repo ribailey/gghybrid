@@ -77,11 +77,11 @@ prepdata=data.prep(data=dat$data,
 
 #Next, run hybrid index estimation#
 
-#This function uses objects used by both the previous functions#
+#This function uses objects produced by both the previous functions#
 
 hindlabel= esth(data.prep.object = prepdata$data.prep,
 read.data.precols = dat$precols,
-include.Source = TRUE,	#Set to true if you want hybrid indices for the parental reference individuals#
+include.Source = TRUE,	#Set to TRUE if you want hybrid indices for the parental reference individuals#
 plot.ind = c("P?08-141","PD11-255","PH08-442","PI07-243",
         "PI08-501","PX08-520"),
 plot.col = c("blue","green","cyan","purple","magenta","red"),
@@ -133,7 +133,7 @@ text.col=c("black"), #Text colour#
 pch=22, 				#Text size#
 col=abc[,col.Dark2], #Name of the field containing colour information#
 pt.bg=abc[,col.Dark2],	#Name of the field containing colour information#
-ncol=2,				#Number of columns for splitting the group names#
+ncol=2,				#Number of columns for the group names#
 cex=1, pt.cex=1)
 
 ###
@@ -144,9 +144,9 @@ gc1=ggcline(
     data.prep.object=prepdata$data.prep,
     esth.object=hindlabel,
     read.data.precols=dat$precols,
-    plot.test.subject=c("A2ML1_SNP2"),
-    plot.col=c("orange"),
-    plot.ylim=c(-2,3),
+    plot.test.subject=c("A2ML1_SNP2"),	#Optional
+    plot.col=c("orange"),		#Optional
+    plot.ylim=c(-2,3),			#Optional
     nitt = 10000, burnin = 5000, print.k = 50)
 
 #Again the real-time plots are optional. Open circles are parameter v (width), 
@@ -157,7 +157,7 @@ gc1=ggcline(
 
 #Take a look#
 
-gc1
+gc1	#Run again if it doesn't show up first time#
 
 ###
 
