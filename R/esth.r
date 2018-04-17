@@ -60,7 +60,7 @@
 #' }
 #' @export
 esth= function(data.prep.object,read.data.precols,
-    test.subject="INDLABEL",test.subject.compare=NULL,
+    test.subject="INDLABEL",test.subject.compare="INDLABEL",
     include.Source = TRUE,
     return.likmeans = FALSE,fix.subject = FALSE,fix.value = FALSE,
     plot.ind = NULL,plot.col = NULL,nitt,burnin,
