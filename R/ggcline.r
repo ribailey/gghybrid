@@ -54,6 +54,13 @@
 #'
 #' The null value \code{v} = 1, and for \code{centre} = 0.5. If both parameters are fixed to these or other values, only \code{nitt=2} 
 #'   and \code{burnin=0} are required.
+#'
+#' For \code{poolv} and \code{poolcentre}, for the time being the only options are no pooling (\code{FALSE}) or pooling across all 
+#'   samples in the data set (\code{TRUE}). So if for example you wish to pool one or both parameters for each locus individually 
+#'   across two transects (rather than across all loci and both transects), the loci must be run individually by subsetting the 
+#'   \code{data.prep.object} to only include one locus in each run. This is due to a technical issue with sampling from the proposal 
+#'   distribution when pooling is done within multiple different groups rather than across the whole data set, and should be fixed in 
+#'   later versions.
 #' @return list with two mandatory components, \code{gc}, a \code{data.table} and \code{data.frame} with the estimated 
 #'   genomic cline parameters and their credible intervals, and \code{test.subject}. The optional output \code{likmeans} 
 #'   is needed downstream 
