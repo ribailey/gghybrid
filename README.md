@@ -30,3 +30,17 @@ For usage please see help files for individual functions by typing e.g. '?read.d
 
 Synopsis:
 To understand mechanisms of speciation and the evolutionary impacts of admixture it is vital to identify loci showing restricted or biased introgression among hybridizing taxa. Genomic cline analysis provides a means to do this, by examining patterns of introgression of loci into foreign genomic backgrounds. Here I present a new R package, gghybrid, which allows hypothesis-testing on bi-allelic genomic data through Bayesian hybrid-index (proportion of allele copies coming from one of two parental reference sets) and logit-logistic genomic-cline (Fitzpatrick 2013) estimation. The package takes structure files or similar data tables as input, allows filtering of loci based on parental allele frequencies, and pooling and fixing of parameters followed by model comparison for both hybrid index and genomic clines with the Bayesian widely applicable information criterion (waic). It therefore provides great flexibility in comparing, for example, populations, transects, genomic regions or gene networks for differing patterns of admixture and introgression. It also allows rapid creation of a genotype table, with genotypes scored according to the parent-of-origin of each allele, and contains plot functions for hybrid index and genomic cline estimates. I use an adaptive algorithm during burnin to optimize multivariate parameter proposal distributions, utilizing both the acceptance rate and the estimated parameter covariance matrix. Furthermore, given the intention for the package to be used on large whole-genome data sets, I employ recursive estimation of posterior distributions to avoid storage of the full set of posterior values and hence improve memory efficiency.
+
+Hybrid index estimation uses the formulae from Buerkle (2005), plus a prior:
+
+Buerkle, C. A. (2005). Maximum likelihood estimation of a hybrid index based on molecular markers. Molecular Ecology Notes, 5(3), 684-687.
+
+Genomic cline analysis uses the logit-logistic cline function of Fitzpatrick (2013), with parameter 'centre' instead of 'u' (see '?ggcline'):
+
+Fitzpatrick, B. M. (2013). Alternative forms for genomic clines. Ecology and evolution, 3(7), 1951-1966.
+
+References for the data set:
+
+Hermansen JS, Haas F, Trier CN, Bailey RI, Nederbragt AJ, Marzal A, Sætre G (2014) Hybrid speciation by sorting of parental incompatibilities in Italian sparrows. Molecular Ecology 23(23): 5831-5842. https://doi.org/10.1111/mec.12910.
+
+Hermansen JS, Haas F, Bailey RI, Nederbragt AJ, Trier CN, Marzal A, Sætre G (2014) Data from: Hybrid speciation by sorting of parental incompatibilities in Italian sparrows. Dryad Digital Repository. https://doi.org/10.5061/dryad.v6f4d.
