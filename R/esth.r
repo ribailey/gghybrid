@@ -25,7 +25,11 @@
 #' @param prior Numeric vector. Values of \code{shape1} and \code{shape2} parameters for the beta-distributed prior. 
 #'   Default is \code{shape1=shape2=0.5} (Jeffrey's prior).
 #' @param print.k Numeric. The iteration is printed to screen on multiples of this number. Default is \code{50}.
-#' @details \code{esth} excludes any pre-marker columns from the output with finer resolution than the declared \code{test.subject}, 
+#' @details \code{esth} estimates hybrid index using the likelihood formulae of Buerkle (2005), with the addition of a
+#'   prior. The default is Jeffrey's prior (beta distribution with \code{shape1=shape2=0.5}), which testing suggests 
+#'   is an improvement over a uniform prior (\code{shape1=shape2=1}).
+#'
+#' \code{esth} excludes any pre-marker columns from the output with finer resolution than the declared \code{test.subject}, 
 #'   and hence has the same number of rows as the number of unique \code{test.subject} values.
 #'
 #' Set \code{return.likmeans=TRUE} if you intend to carry out model comparison.
@@ -45,6 +49,9 @@
 #'   \item{npar}{number of parameters. see compare.models.}
 #' @author
 #'   Richard Ian Bailey \email{richardianbailey@@gmail.com}
+#' @references
+#'   Buerkle, C. A. (2005). Maximum‐likelihood estimation of a hybrid index based on molecular markers. 
+#'   Molecular Ecology Notes, 5(3), 684-687.
 #' @examples
 #'
 #' \dontrun{
