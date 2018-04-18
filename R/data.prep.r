@@ -35,13 +35,19 @@
 #'   and joined to the primary output table (and to the locus table if \code{return.locus.table} set to \code{TRUE}). 
 #'   May be useful for downstream statistical comparison of hybrid index or genomic cline estimates among groups of markers. 
 #'   Default is \code{NULL}.
-#' @details The primary output of \code{data.prep} is is a long-form \code{data.table} with 1 row for each allele copy in the 
+#' @details The primary output of \code{data.prep} is a long-form \code{data.table} with 1 row for each allele copy in the 
 #'   data set, to be used in downstream hybrid index and genomic cline estimation. It also optionally produces (1) a locus table,
 #'   with one row per locus and containing the same locus data as in the long-form table (see \sQuote{Value}), and (2) a 
 #'   genotype table, with genotypes 
 #'   scored according to the number of alleles from parental reference set \code{S1}. This may be useful for example in estimating 
 #'   parent-specific linkage disequilibria. \code{data.prep} uses objects produced by \code{read.data} as input, or custom 
 #'   objects in the same format.
+#'
+#' The optional \code{marker.info.file} should be a file with one row per marker and any number of 
+#'   columns (including the marker name), each for a variable of
+#'   interest for grouping markers, such as chromosome, map location, gene function, SNP type (non-synonymous, synonymous, 
+#'   intronic etc.). These variables 
+#'   can then be used downstream for statistical comparison of hybrid index or clines among groups of loci.
 #' @return list with one mandatory component, \code{data.prep}, a \code{data.table} and \code{data.frame} long-form 
 #'   version of the imported data table
 #'   with additional fields listed below. The two optional components are: (1) \code{geno.data}, a \code{data.table} and \code{data.frame} 
