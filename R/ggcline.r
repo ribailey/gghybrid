@@ -48,7 +48,7 @@
 #' While Fitzpatrick (2013) describes parameters, \code{v} (the relative cline slope) and \code{u} (the relative cline position), 
 #'   the parameter \code{u} is difficult to interpret as its range scales to \code{v}. Noting that for the hybrid index itself,
 #'   \code{u=0} and \code{v=1}, the cline centre (hybrid index value for which allele frequencies are half way between those of
-#'   the parents: \code{m} in Fitzpatrick's notation) for individual loci has the relationship \code{logit(centre)=v/u}. \code{centre}
+#'   the parents: \code{m} in Fitzpatrick's notation) for individual loci has the relationship \code{logit(centre)=u/v}. \code{centre}
 #'   is easier to interpret, and estimating it rather than \code{u} improves MCMC efficiency; hence I estimate \code{centre} 
 #'   rather than \code{u}.
 #'
