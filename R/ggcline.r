@@ -41,7 +41,16 @@
 #'   well on tested data sets. Default \code{NULL}.
 #' @param print.k The iteration is printed to screen on multiples of this number. Default is \code{50}.
 #' @details \code{ggcline} assumes the posterior of \code{log(v)} is normally distributed, and the results for this parameter are 
-#'   the inverse logs of the estimated mean and upper and lower quantiles of \code{log(v)}.
+#'   the inverse logs of the estimated mean and upper and lower quantiles of \code{log(v)}. \code{v} is always positive and higher 
+#'   values for \code{v} indicate steeper clines, with \code{v=1} being the null value. \code{centre} represents the hybrid index
+#'   at which allele frequencies are half way between those of the parents. It ranges between 0 and 1 and the null value is 0.5.
+#'
+#' While Fitzpatrick (2013) describes parameters, \code{v} (the relative cline slope) and \code{u} (the relative cline position), 
+#'   the parameter \code{u} is difficult to interpret as its range scales to \code{v}. Noting that for the hybrid index itself,
+#'   \code{u=0} and \code{v=1}, the cline centre (hybrid index value for which allele frequencies are half way between those of
+#'   the parents: \code{m} in Fitzpatrick's notation) for individual loci has the relationship \code{logit(centre)=v/u}. \code{centre}
+#'   is easier to interpret, and estimating it rather than \code{u} improves MCMC efficiency; hence I estimate \code{centre} 
+#'   rather than \code{u}.
 #'
 #' The null value \code{v} = 1, and for \code{centre} = 0.5. If both parameters are fixed to these or other values, only \code{nitt=2} 
 #'   and \code{burnin=0} are required.
@@ -51,11 +60,11 @@
 #'   when model comparison is carried out with \code{compare.models}.
 #'
 #'   \code{gc} contains the \code{test.subject} and following fields:
-#'   \item{v_mean}{the rate parameter estimate.}
+#'   \item{v_mean}{the rate parameter estimate: inverse-logged mean of the posterior normal distribution for log(v).}
 #'   \item{v_lower_95}{rate parameter lower 95 percent credible interval (inverse-logged 2.5 percent quantile of the posterior normal distribution for log(v)).}
 #'   \item{v_upper_95}{rate parameter upper 95 percent credible interval (inverse-logged 97.5 percent quantile of the posterior normal distribution for log(v)).}
 #'   \item{v_pvalue}{p value for the rate parameter. Quantile of the null value (log(1)) given the posterior normal distribution for log(v).}
-#'   \item{centre_mean}{mean of the posterior normal distribution.}
+#'   \item{centre_mean}{centre parameter estimate: mean of the posterior normal distribution.}
 #'   \item{centre_lower_95}{lower 95 percent credible interval (2.5 percent quantile of the posterior normal).}
 #'   \item{centre_upper_95}{upper 95 percent credible interval (97.5 percent quantile of the posterior normal).}
 #'   \item{centre_pvalue}{p value. Quantile of the null value (0.5) given the posterior normal distribution for centre.}
@@ -63,6 +72,8 @@
 #'   \item{sum_npar}{sum number of parameters across all samples.}
 #' @author
 #'   Richard Ian Bailey \email{richardianbailey@@gmail.com}
+#' @References
+#'   Fitzpatrick, B. M. (2013). Alternative forms for genomic clines. Ecology and evolution, 3(7), 1951-1966. 
 #' @examples
 #'
 #' \dontrun{
