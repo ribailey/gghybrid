@@ -94,11 +94,11 @@
 #'   for data manipulation. Hence if you wish to manipulate the imported data file in any way, such as subsetting, and are not comfortable using 
 #'   \code{data.table} syntax, convert the file to a standard \code{data.frame} first. However, it must be converted back to a 
 #'   \code{data.table} before use in downstream functions.
-#' @return \code{read.data} returns an object of \href{http://127.0.0.1:23982/library/base/html/class.html}{class} \dQuote{XXXX} 
-#'   containing the loaded data in \code{ONEROW = 0} format, in the form of a 
-#'   \code{data.table} and \code{data.frame}, and other components used in downstream functions or otherwise potentially useful to the user.
+#' @return \code{read.data} returns a list with one component containing the loaded data in \code{ONEROW = 0} format, in the 
+#'   form of a \code{data.table} and \code{data.frame}, and other components used in downstream functions or otherwise potentially 
+#'   useful to the user.
 #'
-#'   An object of \href{http://127.0.0.1:23982/library/base/html/class.html}{class} \dQuote{XXXX} is a list containing the following components:
+#'   The list contains the following components:
 #'   \item{mainparams}{A \code{data.table} and \code{data.frame} with the inputted \code{mainparams} information (or default values if 
 #'   no information provided).}
 #'   \item{nprecols}{Numeric. The number of non-marker columns to the left of the marker columns in the imported data set.}
