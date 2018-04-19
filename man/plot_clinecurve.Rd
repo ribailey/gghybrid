@@ -62,13 +62,13 @@ plot_clinecurve(
 ggcline.object=gc1$gc,
 data.prep.object=prepdata$data.prep,
 esth.object=hindlabel$hi,
-cline.locus="locusgroup1",		#Plotting the cline for only one locus#
+cline.locus="locusgroup1",                                                                  #Plotting the cline for only one locus#
 locus.column="locusgroup",
-#cline.col=c("orange","blue","green","red","magenta"),		#If you had chosen to plot 5 loci#
+#cline.col=c("orange","blue","green","red","magenta"),                                      #If you had chosen to plot 5 loci#
 cline.col="green",
-#null.line.locus=c("locusgroup1","locusgroup2","locusgroup3","locusgroup4","locusgroup5"),	#If you had chosen to plot 5 loci#
+#null.line.locus=c("locusgroup1","locusgroup2","locusgroup3","locusgroup4","locusgroup5"),  #If you had chosen to plot 5 loci#
 null.line.locus="locusgroup1",
-#null.line.col=c("orange","blue","green","red","magenta"),	#If you had chosen to plot 5 loci#
+#null.line.col=c("orange","blue","green","red","magenta"),                                  #If you had chosen to plot 5 loci#
 null.line.col="green",
 plot.data="locusgroup1",
 data.col="black",
@@ -76,8 +76,8 @@ plot.genotype=TRUE,
 PLOIDY=2,
 cline.centre.line="locusgroup1",
 cline.centre.col="green"
-#cline.centre.line=c("locusgroup1","locusgroup2","locusgroup3","locusgroup4","locusgroup5"),	#If you had chosen to plot 5 loci#
-#cline.centre.col=c("orange","blue","green","red","magenta")	#If you had chosen to plot 5 loci#
+#cline.centre.line=c("locusgroup1","locusgroup2","locusgroup3","locusgroup4","locusgroup5"),#If you had chosen to plot 5 loci#
+#cline.centre.col=c("orange","blue","green","red","magenta")                                #If you had chosen to plot 5 loci#
 )
 #Add a title:
 title(main = "locusgroup1",xlab="Hybrid index",

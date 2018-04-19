@@ -86,11 +86,11 @@ Default is \code{1}.}
 needed and will be removed in future. Default \code{0}.}
 }
 \value{
-\code{read.data} returns an object of \href{http://127.0.0.1:23982/library/base/html/class.html}{class} \dQuote{XXXX} 
-  containing the loaded data in \code{ONEROW = 0} format, in the form of a 
-  \code{data.table} and \code{data.frame}, and other components used in downstream functions or otherwise potentially useful to the user.
+\code{read.data} returns a list with one component containing the loaded data in \code{ONEROW = 0} format, in the 
+  form of a \code{data.table} and \code{data.frame}, and other components used in downstream functions or otherwise potentially 
+  useful to the user.
 
-  An object of \href{http://127.0.0.1:23982/library/base/html/class.html}{class} \dQuote{XXXX} is a list containing the following components:
+  The list contains the following components:
   \item{mainparams}{A \code{data.table} and \code{data.frame} with the inputted \code{mainparams} information (or default values if 
   no information provided).}
   \item{nprecols}{Numeric. The number of non-marker columns to the left of the marker columns in the imported data set.}
@@ -158,20 +158,20 @@ MISSINGVAL=NA)
 dat2=read.data(file="filename.ext",
 precol.headers=0,
 nprecol=2,
-EXTRACOL=0,		#Same as default; included for clarity#
-INDLABEL=1,		#Same as default; included for clarity#
-LOCDATA=0,		#Same as default; included for clarity#
-MAPDISTANCE=0,	#Same as default; included for clarity#
-MARKERNAME=1,	#Same as default; included for clarity#
+EXTRACOL=0,      #Same as default; included for clarity#
+INDLABEL=1,      #Same as default; included for clarity#
+LOCDATA=0,       #Same as default; included for clarity#
+MAPDISTANCE=0,   #Same as default; included for clarity#
+MARKERNAME=1,    #Same as default; included for clarity#
 MISSINGVAL=-9,
-NUMINDS=354,		#Not mandatory#
+NUMINDS=354,     #Not mandatory#
 NUMLOCI=77,
 ONEROW=1,
-PHASED=0,		#Same as default; included for clarity#
-PHENOTYPE=0,		#Same as default; included for clarity#
-PLOIDY=2,		#Same as default; included for clarity#
-POPFLAG=0,		#Same as default; included for clarity#
-POPID=1,			#Same as default; included for clarity#
+PHASED=0,        #Same as default; included for clarity#
+PHENOTYPE=0,     #Same as default; included for clarity#
+PLOIDY=2,        #Same as default; included for clarity#
+POPFLAG=0,       #Same as default; included for clarity#
+POPID=1,         #Same as default; included for clarity#
 RECESSIVEALLELE=0#Same as default; included for clarity#
 )
 }

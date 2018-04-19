@@ -52,9 +52,10 @@ Plot function for estimated hybrid indices and credible intervals.
 \dontrun{
 abc = plot_h(data=hindlabel$hi,
 test.subject=hindlabel$test.subject,
-mean.h.by="POPID",			#Calculate the mean hybrid index for each value of the "POPID" column#
-sort.by=c("mean_h","POPID","h_posterior_mode"),	#Order test subjects along the x axis by the mean hybrid index calculated above and also by 
-						#individual hybrid index ("POPID" is included as some population pairs may have identical mean hi).
+mean.h.by="POPID",                              #Calculate the mean hybrid index for each value of the "POPID" column#
+sort.by=c("mean_h","POPID","h_posterior_mode"), #Order test subjects along the x axis by the mean hybrid index calculated 
+                                                #above and also by individual hybrid index ("POPID" is included as some 
+                                                #population pairs may have identical mean hi).
 col.group="POPID",
 group.sep="POPID",
 fill.source=TRUE,
@@ -66,15 +67,15 @@ cex=1,pch=16,
 cex.lab=1.5,cex.main=1.5,ylim=c(0,1))
 
 #Adding a legend using the \\code{plot_h} object (\\code{abc}):
-setkey(abc,rn)		#Order data by row number#
-legend("topleft",	#Place the legend in the top left of the figure#
-abc[,POPID], 		#Name of the field by which data point colours are grouped#
-bg="white",			#Background colour#
-text.col=c("black"), #Text colour#
-pch=22, 				#Text size#
-col=abc[,col.Dark2], #Name of the field containing colour information#
-pt.bg=abc[,col.Dark2],	#Name of the field containing colour information#
-ncol=4,				#Number of columns for splitting the group names#
+setkey(abc,rn)                                  #Order data by row number#
+legend("topleft",                               #Place the legend in the top left of the figure#
+abc[,POPID],                                    #Name of the field by which data point colours are grouped#
+bg="white",                                     #Background colour#
+text.col=c("black"),                            #Text colour#
+pch=22,                                         #Text size#
+col=abc[,col.Dark2],                            #Name of the field containing colour information#
+pt.bg=abc[,col.Dark2],                          #Name of the field containing colour information#
+ncol=4,                                         #Number of columns for splitting the group names#
 cex=0.6, pt.cex=0.7)
 }
 }

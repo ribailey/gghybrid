@@ -5,7 +5,7 @@
 \title{Bayesian hybrid index estimation.}
 \usage{
 esth(data.prep.object, read.data.precols, test.subject = "INDLABEL",
-  test.subject.compare = NULL, include.Source = TRUE,
+  test.subject.compare = "INDLABEL", include.Source = TRUE,
   return.likmeans = FALSE, fix.subject = FALSE, fix.value = FALSE,
   plot.ind = NULL, plot.col = NULL, nitt, burnin, init.var = 0.002,
   prior = c(0.5, 0.5), print.k = 50)
@@ -71,6 +71,10 @@ list containing \code{hi}, \code{test.subject} and \code{likmeans} (optional). \
 Bayesian hybrid index estimation.
 }
 \details{
+\code{esth} estimates hybrid index using the likelihood formulae of Buerkle (2005), with the addition of a
+  prior. The default is Jeffrey's prior (beta distribution with \code{shape1=shape2=0.5}), which testing suggests 
+  is an improvement over a uniform prior (\code{shape1=shape2=1}).
+
 \code{esth} excludes any pre-marker columns from the output with finer resolution than the declared \code{test.subject}, 
   and hence has the same number of rows as the number of unique \code{test.subject} values.
 
@@ -89,6 +93,10 @@ plot.ind = c("indref1","indref2","indref3","indref4","indref5","indref6"),
 plot.col = c("blue","green","cyan","purple","magenta","red"),
 nitt=15000,burnin=5000)
 }
+}
+\references{
+Buerkle, C. A. (2005). Maximum likelihood estimation of a hybrid index based on molecular markers. 
+  Molecular Ecology Notes, 5(3), 684-687.
 }
 \author{
 Richard Ian Bailey \email{richardianbailey@gmail.com}

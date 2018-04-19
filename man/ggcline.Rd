@@ -88,11 +88,11 @@ list with two mandatory components, \code{gc}, a \code{data.table} and \code{dat
   when model comparison is carried out with \code{compare.models}.
 
   \code{gc} contains the \code{test.subject} and following fields:
-  \item{v_mean}{the rate parameter estimate.}
+  \item{v_mean}{the rate parameter estimate: inverse-logged mean of the posterior normal distribution for log(v).}
   \item{v_lower_95}{rate parameter lower 95 percent credible interval (inverse-logged 2.5 percent quantile of the posterior normal distribution for log(v)).}
   \item{v_upper_95}{rate parameter upper 95 percent credible interval (inverse-logged 97.5 percent quantile of the posterior normal distribution for log(v)).}
   \item{v_pvalue}{p value for the rate parameter. Quantile of the null value (log(1)) given the posterior normal distribution for log(v).}
-  \item{centre_mean}{mean of the posterior normal distribution.}
+  \item{centre_mean}{centre parameter estimate: mean of the posterior normal distribution.}
   \item{centre_lower_95}{lower 95 percent credible interval (2.5 percent quantile of the posterior normal).}
   \item{centre_upper_95}{upper 95 percent credible interval (97.5 percent quantile of the posterior normal).}
   \item{centre_pvalue}{p value. Quantile of the null value (0.5) given the posterior normal distribution for centre.}
@@ -104,10 +104,26 @@ Estimate genomic cline parameters, credible intervals and p values.
 }
 \details{
 \code{ggcline} assumes the posterior of \code{log(v)} is normally distributed, and the results for this parameter are 
-  the inverse logs of the estimated mean and upper and lower quantiles of \code{log(v)}.
+  the inverse logs of the estimated mean and upper and lower quantiles of \code{log(v)}. \code{v} is always positive and higher 
+  values for \code{v} indicate steeper clines, with \code{v=1} being the null value. \code{centre} represents the hybrid index
+  at which allele frequencies are half way between those of the parents. It ranges between 0 and 1 and the null value is 0.5.
 
-The null value \code{v} = 1, and for \code{centre} = 0.5. If both parameters are fixed to these or other values, only \code{nitt=2} 
+While Fitzpatrick (2013) describes parameters, \code{v} (the relative cline slope) and \code{u} (the relative cline position), 
+  the parameter \code{u} is difficult to interpret as its range scales to \code{v}. Noting that for the hybrid index itself,
+  \code{u=0} and \code{v=1}, the cline centre (hybrid index value for which allele frequencies are half way between those of
+  the parents: \code{m} in Fitzpatrick's notation) for individual loci has the relationship \code{logit(centre)=u/v}. \code{centre}
+  is easier to interpret, and estimating it rather than \code{u} improves MCMC efficiency; hence I estimate \code{centre} 
+  rather than \code{u}.
+
+The null value for \code{v} = 1, and for \code{centre} = 0.5. If both parameters are fixed to these or other values, only \code{nitt=2} 
   and \code{burnin=0} are required.
+
+For \code{poolv} and \code{poolcentre}, for the time being the only options are no pooling (\code{FALSE}) or pooling across all 
+  samples in the data set (\code{TRUE}). So if for example you wish to pool one or both parameters for each locus individually 
+  across two transects (rather than across all loci and both transects), the loci must be run individually by subsetting the 
+  \code{data.prep.object} to only include one locus in each run. This is due to a technical issue with sampling from the proposal 
+  distribution when pooling is done within multiple different groups rather than across the whole data set, and should be fixed in 
+  later versions.
 }
 \examples{
 
@@ -115,17 +131,20 @@ The null value \code{v} = 1, and for \code{centre} = 0.5. If both parameters are
 gc1=ggcline(
 data.prep.object=prepdata$data.prep,
 esth.object=hindlabel,
-poolv=FALSE,poolcentre=FALSE,	#No pooling of parameters for this run#
-test.subject="locusgroup",		#Use a field other than the default#
+poolv=FALSE,poolcentre=FALSE,                                             #No pooling of parameters for this run#
+test.subject="locusgroup",                                                #Use a field other than the default#
 return.likmeans=TRUE,
 read.data.precols=dat$precols,
-fix.subject.v=c("locusgroup1","locusgroup2"),fix.value.v=1,	#Fixing a subset of test subjects for v#
-fix.subject.centre=c("locusgroup1","locusgroup2"),fix.value.centre=0.5,	#Fixing a subset of test subjects for centre#
-plot.test.subject=c("locusgroup1"),	#Real-time plot of the two parameters for locusgroup1#
+fix.subject.v=c("locusgroup1","locusgroup2"),fix.value.v=1,               #Fixing a subset of test subjects for v#
+fix.subject.centre=c("locusgroup1","locusgroup2"),fix.value.centre=0.5,   #Fixing a subset of test subjects for centre#
+plot.test.subject=c("locusgroup1"),                                       #Real-time plot of the two parameters for locusgroup1#
 plot.col=c("orange"),
 plot.ylim=c(-2,3),
 nitt = 10000, burnin = 5000, print.k = 50)
 }
+}
+\references{
+Fitzpatrick, B. M. (2013). Alternative forms for genomic clines. Ecology and evolution, 3(7), 1951-1966.
 }
 \author{
 Richard Ian Bailey \email{richardianbailey@gmail.com}

@@ -58,6 +58,7 @@ per locus and only containing locus-level data (such as parental allele frequenc
 
 \item{marker.info.file}{Character string. The name of an optional file of additional marker information, to be read in 
 and joined to the primary output table (and to the locus table if \code{return.locus.table} set to \code{TRUE}). 
+The file should have one row per marker with marker names in a column named "locus".
 May be useful for downstream statistical comparison of hybrid index or genomic cline estimates among groups of markers. 
 Default is \code{NULL}.}
 }
@@ -93,13 +94,19 @@ list with one mandatory component, \code{data.prep}, a \code{data.table} and \co
 Prepare data for hybrid index and genomic cline estimation.
 }
 \details{
-The primary output of \code{data.prep} is is a long-form \code{data.table} with 1 row for each allele copy in the 
+The primary output of \code{data.prep} is a long-form \code{data.table} with 1 row for each allele copy in the 
   data set, to be used in downstream hybrid index and genomic cline estimation. It also optionally produces (1) a locus table,
   with one row per locus and containing the same locus data as in the long-form table (see \sQuote{Value}), and (2) a 
   genotype table, with genotypes 
   scored according to the number of alleles from parental reference set \code{S1}. This may be useful for example in estimating 
   parent-specific linkage disequilibria. \code{data.prep} uses objects produced by \code{read.data} as input, or custom 
   objects in the same format.
+
+The optional \code{marker.info.file} should be a file with one row per marker with marker names in a column named \dQuote{locus} and any number of 
+  columns, each for a variable of
+  interest for grouping markers, such as chromosome, map location, gene function, SNP type (non-synonymous, synonymous, 
+  intronic etc.). These variables 
+  can then be used downstream for statistical comparison of hybrid index or clines among groups of loci.
 }
 \examples{
 
@@ -108,10 +115,10 @@ The primary output of \code{data.prep} is is a long-form \code{data.table} with 
 prepdata=data.prep(data=dat$data,
 loci=dat$loci,
 alleles=dat$alleles,
-S0=c("pop1","pop2"),	#Two populations in the \\code{POPID} column chosen as parental reference set \\code{S0}#
-S1="pop3",			#One population in the \\code{POPID} column chosen as parental reference set \\code{S1}#
+S0=c("pop1","pop2"),  #Two populations in the 'POPID' column chosen as parental reference set 'S0'#
+S1="pop3",            #One population in the 'POPID' column chosen as parental reference set 'S1'#
 precols=dat$precols,
-max.S.MAF = 0.1,		#Filtering by parental minor allele frequency only; other filtering options below are same as default#
+max.S.MAF = 0.1,      #Filtering by parental minor allele frequency only; other filtering options below are same as default#
 min.diff=0,
 min.allele.copies.S0=0,
 min.allele.copies.S1=0,
