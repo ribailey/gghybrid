@@ -22,7 +22,7 @@ all samples in at least one of the two models being compared).}
 \item{esth.object2}{Name of an \code{esth} object.}
 }
 \value{
-A \code{data.table} and \code{data.frame} with the name of the test subject plus following fields:*************
+A \code{data.table} and \code{data.frame} with the name of the test subject plus following fields:
   \item{npar1}{number of parameters for the first model.}
   \item{lppd1}{Sum of the mean posterior likelihoods for the individual data points for the first model.}
   \item{waic1}{widely applicable information criterion for the first model.}
@@ -38,8 +38,8 @@ Statistical comparison of pairs of either \code{esth} or \code{ggcline} objects 
   Bayesian widely applicable information criterion (waic).
 }
 \details{
-\code{compare.models} uses the actual number of parameters for each model, rather than an estimate,
-  which would be applicable to more complex hierarchichal models.
+\code{compare.models} uses the actual number of parameters for each model rather than an estimate,
+  which would be applicable in more complex hierarchichal models.
 }
 \examples{
 
