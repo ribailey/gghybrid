@@ -1,6 +1,8 @@
 # gghybrid
 R package for analysis of hybrids and hybrid zones. Currently includes hybrid index and genomic cline estimation for bi-allelic genomic data.
 
+Note: help files updated 19 April 2018.
+
 To cite package ‘gghybrid’ in publications use:
 
   Richard Ian Bailey (2018). gghybrid: Evolutionary Analysis of Hybrids and
