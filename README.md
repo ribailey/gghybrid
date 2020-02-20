@@ -5,8 +5,7 @@ Note: help files updated 19 April 2018.
 
 To cite package ‘gghybrid’ in publications use:
 
-  Richard Ian Bailey (2018). gghybrid: Evolutionary Analysis of Hybrids and
-  Hybrid Zones. R package version 0.0.0.9000.
+  Richard Ian Bailey. (2020, February 20). gghybrid: R package for evolutionary analysis of hybrids and hybrid zones. (Version v1.0.0). Zenodo. http://doi.org/10.5281/zenodo.3676499
 
 Example code is in the file 'Example_code_RIBailey_17April2018.R ', and the data set used by this code is 'RB_Italy_ggcline_precol_headers_haploidND2.csv ', which was downloaded and prepared from here: https://www.datadryad.org/resource/doi:10.5061/dryad.v6f4d
 
