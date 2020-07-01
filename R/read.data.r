@@ -202,14 +202,14 @@ read.data=function(file,mainparams=NULL,extracol.names=NULL,
 			    FALSE),length=.N)];
 			                            };
 
-        allele.id=data[,lapply(.SD,unique.fun),.SDcols=MARKER[]];
+        #allele.id=data[,lapply(.SD,unique.fun),.SDcols=MARKER[]];
 
         output=list();
             output$mainparams=mainparams;
             output$nprecols=nprecol;
             output$precols=names(data[,1:nprecol])
             output$data=data;
-            output$alleles=allele.id;
+            #output$alleles=allele.id;
             output$loci=MARKER;
 
         cat(paste("Done"),fill=1);
@@ -272,14 +272,14 @@ read.data=function(file,mainparams=NULL,extracol.names=NULL,
 				    as.numeric(V2)]),FALSE),length=.N)];
 				                            };
 
-            allele.id=data[,lapply(.SD,unique.fun),.SDcols=MARKER[]];
+            #allele.id=data[,lapply(.SD,unique.fun),.SDcols=MARKER[]];
 
             output<-list();
                 output$mainparams=mainparams;
                 output$nprecols=nprecolumns;
                 output$precols=cnames[1:nprecolumns]
                 output$data=data;
-                output$alleles=allele.id;
+                #output$alleles=allele.id;
                 output$loci=MARKER;
 
             cat(paste("Done"),fill=1);
@@ -318,14 +318,14 @@ read.data=function(file,mainparams=NULL,extracol.names=NULL,
 												   
             data=NULL;
 			
-            allele.id=dat[,lapply(.SD,unique.fun),.SDcols=MARKER[]];
+            #allele.id=dat[,lapply(.SD,unique.fun),.SDcols=MARKER[]];
 			
             output=list();
                 output$mainparams=mainparams;
                 output$nprecols=nprecolumns;
                 output$precols=cnames[1:nprecolumns]
                 output$data=dat;
-                output$alleles=allele.id;
+                #output$alleles=allele.id;
                 output$loci=MARKER;
 
             cat(paste("Done"),fill=1);
