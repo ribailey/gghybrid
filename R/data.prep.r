@@ -240,7 +240,7 @@
 
 #' @export
 
-data.prep.new2= function(data,loci,alleles,S0,S1,precols,
+data.prep= function(data,loci,alleles,S0,S1,precols,
 
     INDLABEL.name="INDLABEL",POPID.name="POPID",
 
