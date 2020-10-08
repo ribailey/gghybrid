@@ -50,7 +50,7 @@
 #' @author
 #'   Richard Ian Bailey \email{richardianbailey@@gmail.com}
 #' @references
-#'   Buerkle, C. A. (2005). Maximum‐likelihood estimation of a hybrid index based on molecular markers. 
+#'   Buerkle, C. A. (2005). Maximum likelihood estimation of a hybrid index based on molecular markers. 
 #'   Molecular Ecology Notes, 5(3), 684-687.
 #' @examples
 #'
@@ -71,7 +71,11 @@ esth= function(data.prep.object,read.data.precols,
     include.Source = TRUE,
     return.likmeans = FALSE,fix.subject = FALSE,fix.value = FALSE,
     plot.ind = NULL,plot.col = NULL,nitt,burnin,
-	init.var=0.002,prior=c(0.5,0.5),
+	init.var=0.002,
+##NEW##
+init.var2=0.00005,
+#######
+prior=c(0.5,0.5),
     print.k=50){
 
     if(return.likmeans==TRUE){
@@ -120,7 +124,7 @@ esth= function(data.prep.object,read.data.precols,
         if(k==1){cat(paste("Estimating hybrid index..."),fill=1); flush.console();
 		        };
 
-        if(tester::is_multiple(k,print.k)){cat(paste("\t","\t","\t","Iteration",k),fill=1); 
+        if(tester::is_multiple(k,print.k)){cat(paste("\t","\t","\t","Iteration",k,"; acceptance=",unique(MET[,A]),"; indM",unique(MET[,indM])),fill=1); 
             flush.console();     
 			                      };
 
@@ -190,6 +194,11 @@ esth= function(data.prep.object,read.data.precols,
             postvar.h.1:=0
 			][k==(burnin+1),
 			indM:= varh*m];
+
+##NEW##
+MET[k==101,
+    indM:= init.var2];
+#######
 
         MET[k>(burnin+1),
             postmean.h:= postmean.h.1 + (h - postmean.h.1)/(k-burnin)
@@ -321,3 +330,4 @@ esth= function(data.prep.object,read.data.precols,
 
 	return(output)
                }
+
