@@ -66,7 +66,7 @@
 #' nitt=15000,burnin=5000)
 #' }
 #' @export
-esth= function(data.prep.object,read.data.precols,
+esth_new= function(data.prep.object,read.data.precols,
     test.subject="INDLABEL",test.subject.compare="INDLABEL",
     include.Source = TRUE,
     return.likmeans = FALSE,fix.subject = FALSE,fix.value = FALSE,
