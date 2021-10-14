@@ -95,13 +95,23 @@ prior=c(0.5,0.5),
         data.prep.object = data.prep.object[Source == "TEST"];
                    };
 
-    read.data.precols.red=character(0);
+ #   read.data.precols.red=character(0);
+ #   for(i in 1:length(read.data.precols)){
+ #       if(uniqueN(data.prep.object[,c(test.subject,read.data.precols[i]),with=F]) <= 
+ #           uniqueN(data.prep.object[,test.subject,with=F])){
+ #               read.data.precols.red=c(read.data.precols.red,read.data.precols[i]);
+ #                                                     };
+ #                                        };
+	
+    read.data.precols.red=test.subject;#character(0);#New edit 14 Oct 2021#
     for(i in 1:length(read.data.precols)){
         if(uniqueN(data.prep.object[,c(test.subject,read.data.precols[i]),with=F]) <= 
             uniqueN(data.prep.object[,test.subject,with=F])){
                 read.data.precols.red=c(read.data.precols.red,read.data.precols[i]);
                                                       };
                                          };
+					 
+    read.data.precols.red=unique(read.data.precols.red);#New line 14 Oct 2021#
 
     MET = unique(data.prep.object[,c("Source",read.data.precols.red),with=F])[,
         LL:=-5000000][,LF:=LL][,DF:=LL-LF][,UF:=runif(.N)][,
