@@ -169,7 +169,7 @@ The optional \code{marker.info} file should be a file with one row per marker an
   or clines among groups of loci. In the absence of parental reference samples, certain column names and information must be included 
   in the \code{marker.info} file. See examples here and in \code{read.data}.
 
-The locus data object includes posterior mean, mode and upper and lower 95% credible intervals for frequency of the Source 1 allele
+The locus data object includes posterior mean, mode and upper and lower 95 percent credible intervals for frequency of the Source 1 allele
   for each locus, assuming beta-distributed proportions. Note that if the locus is fixed in a parental reference set, its posterior 
   mode will be 0 or 1 and will fall outside the credible intervals due to the influence of the non-zero prior shape parameters. 
   If prior shape parameters are set to zero (equivalent to no prior), the best posterior estimate is the mean rather than the mode, 

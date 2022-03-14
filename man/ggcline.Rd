@@ -135,7 +135,7 @@ Estimate genomic cline parameters, credible intervals and p values.
 }
 \details{
 \code{ggcline} assumes the posterior of \code{ln(v)} is normally distributed, and the results for this parameter are 
-  the inverse logs of the estimated mean and upper and lower 95% credible intervals of ln(\code{v}). \code{v} is always positive and higher 
+  the inverse logs of the estimated mean and upper and lower 95 percent credible intervals of ln(\code{v}). \code{v} is always positive and higher 
   values for \code{v} indicate steeper clines, with \code{v=1} being the null value. \code{centre} represents the hybrid index
   at which allele frequencies are half way between those of the parents. It ranges between 0 and 1 and the null value is 0.5. It 
   is estimated as logit(\code{centre}), and the posterior mean and credible intervals are inverse logit-transformed back to the 
