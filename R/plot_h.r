@@ -2,20 +2,22 @@
 #'
 #' @param data Name of an \code{hi} object produced by the \code{esth} function.
 #' @param test.subject \code{test.subject} object from \code{esth}. Default \dQuote{INDLABEL}. 
-#' @param POPID.name Character string. Name of the designated \code{POPID} field. Default \dQuote{POPID}. 
-#' @param mean.h.by Character string. Column name for grouping of mean hybrid index calculations, for ordering data points on the figure.
-#' @param sort.by Character vector. Values by which to sort the test subjects along the x axis in the figure.
+#' @param POPID.name Character string. Name of the designated \code{POPID} field. Default \dQuote{POPID}, but this is ignored if there is no \code{POPID} field.
+#' @param mean.h.by Character string. Calculate mean hybrid index by group for the group designations in this field. Creates a column called \sQuote{mean_h} 
+#'   for ordering data points on the figure using \option{sort.by}.
+#' @param sort.by Character vector. Fields by which to sort the test subjects by value along the x axis in the figure. Can include \sQuote{mean_h}. 
+#'   Default is \sQuote{h_posterior_mode}.
 #' @param col.group Character string. Variable by which to group colouring of data points.
-#' @param group.sep Character string. Variable by which to separate groups of data point with vertical grey lines.
-#' @param fill.source Logical. Whether to fill the area of the graph representing parental reference samples with a grey background. 
-#'   Default \code{TRUE}.
-#' @param basic.lines Logical. If \code{TRUE}, adds horizontal grey dashed lines at hybrid index 0, 0.5 and 1. Default \code{FALSE}.
+#' @param group.sep Character string. Variable by which to separate groups of data points with vertical grey lines in the plot.
+#' @param fill.source Logical. Whether to fill the area of the plot representing parental reference samples with a grey background. 
+#'   Default \code{FALSE}.
+#' @param basic.lines Logical. If \code{TRUE}, adds horizontal grey dashed lines at hybrid index 0, 0.5 and 1. Default \code{TRUE}.
 #' @param source.col Character vector. Colours to be used for the two parental reference set data points.
 #' @param source.limits Character vector. Colours of horizontal dashed lines marking the innermost credible interval for each 
 #'   parental reference set. Used to indicate whether test subjects are clearly outside the hybrid index ranges of parentals.
 #' @param custom.abline An \code{abline} of the user's choosing.
 #' @param ... Further graphical parameters.
-#' @return alongside the plot, returns a \code{data.table} and \code{data.frame} useful for creating a legend, with 
+#' @return Alongside the plot, returns a \code{data.table} and \code{data.frame} useful for creating a legend, with 
 #'   the specified \code{test.subject} field, the \code{mean.h.by} field if specified, along with the \code{mean_h} value,
 #'   the \code{Source} field, the colours in a field named \code{col.Dark2}, and the row number for ordering in field \code{rn}.
 #' @author
@@ -25,9 +27,9 @@
 #' \dontrun{
 #' abc = plot_h(data=hindlabel$hi,
 #' test.subject=hindlabel$test.subject,
-#' mean.h.by="POPID",			#Calculate the mean hybrid index for each value of the "POPID" column#
+#' mean.h.by="POPID",			                    #Calculate the mean hybrid index for each value of the "POPID" column#
 #' sort.by=c("mean_h","POPID","h_posterior_mode"),	#Order test subjects along the x axis by the mean hybrid index calculated above and also by 
-#'							#individual hybrid index ("POPID" is included as some population pairs may have identical mean hi).
+#'							                         #individual hybrid index ("POPID" is included as some population pairs may have identical mean hi).
 #' col.group="POPID",
 #' group.sep="POPID",
 #' fill.source=TRUE,
@@ -38,8 +40,8 @@
 #' cex=1,pch=16,
 #' cex.lab=1.5,cex.main=1.5,ylim=c(0,1))
 #'
-#' #Adding a legend using the \code{plot_h} object (\code{abc}):
-#' setkey(abc,rn)		#Order data by row number#
+#' #Adding a legend with base R's "legend" function, using the plot_h object created above, "abc":
+#' setkey(abc,rn);		#Order data by row number#
 #' legend("topleft",	#Place the legend in the top left of the figure#
 #' abc[,POPID], 		#Name of the field by which data point colours are grouped#
 #' bg="white",			#Background colour#
@@ -51,7 +53,7 @@
 #' cex=0.6, pt.cex=0.7)
 #' }
 #' @export
-plot_h = function(data,subset.by=NULL,test.subject="INDLABEL",POPID.name="POPID",
+plot_h = function(data,test.subject="INDLABEL",POPID.name="POPID",
     mean.h.by=NULL,sort.by="h_posterior_mode",
     col.group=NULL,group.sep=NULL,fill.source=FALSE,
     basic.lines=TRUE,source.col=NULL,source.limits=NULL,
@@ -101,7 +103,7 @@ plot_h = function(data,subset.by=NULL,test.subject="INDLABEL",POPID.name="POPID"
     setkey(data,NULL);
 
     plot(data[,h_posterior_mode]~data[,rn],type="n",
-        main="Hybrid index and 95% C.I.",
+        #main="Hybrid index and 95% C.I.",               #Probably better without this - user can add a title if they want#
         xlab="Individual",ylab="Hybrid index",...);
 
     if(is.null(group.sep)==FALSE){
@@ -112,7 +114,7 @@ plot_h = function(data,subset.by=NULL,test.subject="INDLABEL",POPID.name="POPID"
 
     setkey(data,NULL);
 			
-	setnames(data,POPID.name,"POPID");
+	setnames(data,POPID.name,"POPID",skip_absent=TRUE); #skip_absent=TRUE added 4 March 2022#
 
     if(fill.source==TRUE){
         setkey(data,Source);
