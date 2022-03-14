@@ -4,20 +4,44 @@
 \alias{ggcline}
 \title{Estimate genomic cline parameters, credible intervals and p values.}
 \usage{
-ggcline(data.prep.object, esth.object, test.subject = "locus",
-  poolv = FALSE, poolcentre = FALSE, include.Source = FALSE,
-  return.likmeans = FALSE, read.data.precols, fix.subject.v = FALSE,
-  fix.value.v, fix.subject.centre = FALSE, fix.value.centre,
-  plot.test.subject = NULL, plot.col = NULL, plot.ylim = c(-5, 5),
-  plot.pch.v.centre = c(1, 3), prior.centre = c(0, sqrt(50)),
-  prior.logv = c(0, sqrt(10)), nitt, burnin, start.v = NULL,
-  start.centre = NULL, init.var.v = NULL, init.var.centre = NULL,
-  init.cov.vcentre = NULL, print.k = 50)
+ggcline(
+  data.prep.object,
+  esth.object,
+  esth.colname = "h_posterior_mode",
+  test.subject = "locus",
+  poolv = FALSE,
+  poolcentre = FALSE,
+  include.Source = FALSE,
+  return.likmeans = FALSE,
+  read.data.precols,
+  fix.subject.v = FALSE,
+  fix.value.v,
+  fix.subject.centre = FALSE,
+  fix.value.centre,
+  plot.test.subject = NULL,
+  plot.col = NULL,
+  plot.ylim = c(-5, 5),
+  plot.pch.v.centre = c(1, 3),
+  prior.logitcentre = c(0, sqrt(50)),
+  prior.logv = c(0, sqrt(10)),
+  nitt,
+  burnin,
+  start.v = NULL,
+  start.centre = NULL,
+  init.var.v = NULL,
+  init.var.centre = NULL,
+  init.cov.vcentre = NULL,
+  print.k = 50
+)
 }
 \arguments{
 \item{data.prep.object}{Name of the \code{data.prep} object produced by the \code{data.prep} function.}
 
 \item{esth.object}{Name of the \code{esth} object.}
+
+\item{esth.colname}{Name of the column in the \code{hi} object within \code{esth} containing the best posterior estimates for 
+hybrid index. Default is \sQuote{h_posterior_mode}. If hybrid index was estimated in the absence of a prior, use 
+\sQuote{beta_mean} instead.}
 
 \item{test.subject}{Character string. Name of the field identifying subjects for genomic cline estimation. Default \dQuote{locus}.}
 
@@ -25,30 +49,31 @@ ggcline(data.prep.object, esth.object, test.subject = "locus",
 
 \item{poolcentre}{Logical. Whether to pool the \code{centre} parameter across all test subjects. Default \code{FALSE}.}
 
-\item{include.Source}{Logical. Whether to include the designated parental reference sets as test subjects in genomic cline 
+\item{include.Source}{Logical. Whether to include the parental reference individuals in genomic cline 
 estimation. Default \code{FALSE}.}
 
-\item{return.likmeans}{Logical. Whether to return a table of likelihood calculations. Required for \code{compare.models}.}
+\item{return.likmeans}{Logical. Whether to return a table of likelihood calculations. Required for applying the widely applicable 
+information criterion to model comparison using \code{compare.models}. Default is \code{FALSE}.}
 
 \item{read.data.precols}{A \code{precols} object produced by \code{read.data}, or a custom character vector with 
 names of all pre-marker columns in the \code{data}.}
 
 \item{fix.subject.v}{Logical default, otherwise a character vector. List of test subjects (normally locus names) 
 for which you wish to fix rather than estimate the rate parameter \code{v}. Used for model 
-comparison with \code{compare.models}.}
+comparison with \code{compare.models}. Set to \code{TRUE} to set all test subjects to the same value. Default is \code{FALSE}.}
 
 \item{fix.value.v}{Logical default, otherwise a numeric vector of length 1 or the same length as \code{fix.subject.v}. 
 The fixed \code{v} value(s) for the test subject(s) listed in \code{fix.subject.v}.}
 
 \item{fix.subject.centre}{Logical default, otherwise a character vector. List of test subjects (normally locus names) 
 for which you wish to fix rather than estimate the \code{centre} parameter . Used for model 
-comparison with \code{compare.models}.}
+comparison with \code{compare.models}. Set to \code{TRUE} to set all test subjects to the same value. Default is \code{FALSE}.}
 
 \item{fix.value.centre}{Logical default, otherwise a numeric vector of length 1 or the same length as \code{fix.subject.centre}. 
 The fixed \code{centre} value(s) for the test subject(s) listed in \code{fix.subject.centre}.}
 
 \item{plot.test.subject}{Character vector. List of up to 3 test subjects for which you wish to plot the posterior distribution values in real time. 
-Rate parameter \code{v} is plotted with open circles, and \code{centre} with plus signs, both the same colour for the same 
+Rate parameter \code{v} is plotted with open circles, and logit(\code{centre}) with plus signs, both the same colour for the same 
 test subject. Default \code{NULL}.}
 
 \item{plot.col}{Character vector. List of up to 3 colours to plot the \code{plot.test.subject} test subjects. Default \code{NULL}.}
@@ -57,90 +82,197 @@ test subject. Default \code{NULL}.}
 
 \item{plot.pch.v.centre}{Numeric vector. Size of data points for the two parameters. Default \code{c(1,3)}.}
 
-\item{prior.centre}{Numeric vector. Mean and sd of the normally distributed prior for \code{centre}. Default \code{c(0,sqrt(50))}.}
+\item{prior.logitcentre}{Numeric vector. Mean and sd of the normally distributed prior for logit(\code{centre}). Default \code{c(0,sqrt(50))}.}
 
-\item{prior.logv}{Numeric vector. Mean and sd of the normally distributed prior for \code{v}. Default \code{c(0,sqrt(50))}.}
+\item{prior.logv}{Numeric vector. Mean and sd of the normally distributed prior for ln(\code{v}). Default \code{c(0,sqrt(10))}.}
 
-\item{nitt}{The total number of MCMC iterations including burnin. At least 10000 is recommended, more if one parameter is pooled.}
+\item{nitt}{The total number of MCMC iterations including burnin. 5,000 is recommended, 10,000 if one parameter is pooled.}
 
-\item{burnin}{Numeric. The number of burnin MCMC iterations. At least 5000 is recommended, more if one parameter is pooled.}
+\item{burnin}{Numeric. The number of burnin MCMC iterations. 2,000 is recommended, 5,000 if one parameter is pooled.}
 
 \item{start.v}{Numeric vector. Optional starting \code{v} values for the MCMC, which are otherwise sampled randomly. Default \code{NULL}.}
 
 \item{start.centre}{Numeric vector. Optional starting \code{centre} values for the MCMC, which are otherwise sampled randomly. Default \code{NULL}.}
 
-\item{init.var.v}{Numeric. Optional starting variance of the \code{v} parameter proposal distribution. Internal value works 
+\item{init.var.v}{Numeric. Optional starting variance of the log(\code{v}) parameter proposal distribution. Internal value works 
 well on tested data sets. Default \code{NULL}.}
 
-\item{init.var.centre}{Optional starting variance of the \code{centre} parameter proposal distribution. Internal value works 
+\item{init.var.centre}{Optional starting variance of the logit(\code{centre}) parameter proposal distribution. Internal value works 
 well on tested data sets. Default \code{NULL}.}
 
-\item{init.cov.vcentre}{Optional starting covariance of the \code{v} and \code{centre} multivariate normal proposal distribution. 
-Internal value (0) works well on tested data sets.
-well on tested data sets. Default \code{NULL}.}
+\item{init.cov.vcentre}{Optional starting covariance of the log(\code{v}) and logit(\code{centre}) multivariate normal proposal distribution. 
+Internal value (0) works well on tested data sets. Default \code{NULL}.}
 
 \item{print.k}{The iteration is printed to screen on multiples of this number. Default is \code{50}.}
 }
 \value{
-list with two mandatory components, \code{gc}, a \code{data.table} and \code{data.frame} with the estimated 
-  genomic cline parameters and their credible intervals, and \code{test.subject}. The optional output \code{likmeans} 
-  is needed downstream 
+list with at least two components, \code{gc}, a \code{data.table} and \code{data.frame} with the estimated 
+  genomic cline parameters, and \code{test.subject}, a character scalar. The optional output \code{likmeans} is needed downstream 
   when model comparison is carried out with \code{compare.models}.
 
   \code{gc} contains the \code{test.subject} and following fields:
-  \item{v_mean}{the rate parameter estimate: inverse-logged mean of the posterior normal distribution for log(v).}
-  \item{v_lower_95}{rate parameter lower 95 percent credible interval (inverse-logged 2.5 percent quantile of the posterior normal distribution for log(v)).}
-  \item{v_upper_95}{rate parameter upper 95 percent credible interval (inverse-logged 97.5 percent quantile of the posterior normal distribution for log(v)).}
-  \item{v_pvalue}{p value for the rate parameter. Quantile of the null value (log(1)) given the posterior normal distribution for log(v).}
-  \item{centre_mean}{centre parameter estimate: mean of the posterior normal distribution.}
-  \item{centre_lower_95}{lower 95 percent credible interval (2.5 percent quantile of the posterior normal).}
-  \item{centre_upper_95}{upper 95 percent credible interval (97.5 percent quantile of the posterior normal).}
-  \item{centre_pvalue}{p value. Quantile of the null value (0.5) given the posterior normal distribution for centre.}
-  \item{npar}{number of parameters.}
-  \item{sum_npar}{sum number of parameters across all samples.}
+  \item{locus}{the locus name, or another chosen test.subject.}
+  \item{S0.prop_1}{allele frequency of the S1 allele in the S0 source population.}
+  \item{S1.prop_1}{allele frequency of the S1 allele in the S1 source population.}
+  \item{exp_mean_log_v}{the best posterior estimate of v (inverse-logged mean of the posterior normal distribution for ln(v)).}
+  \item{v_lower_95}{v lower 95 percent credible interval (inverse-logged 2.5 percent quantile of the posterior normal distribution for ln(v)).}
+  \item{v_upper_95}{v upper 95 percent credible interval (inverse-logged 97.5 percent quantile of the posterior normal distribution for ln(v)).}
+  \item{v_pvalue}{Bayesian p value for v (2*Quantile of the null value (log(1)) given the posterior normal distribution for ln(v)).}
+  \item{invlogit_mean_logit_centre}{best posterior estimate of centre (inverse logit-transformed mean of the posterior normal distribution for logit(centre)).}
+  \item{centre_lower_95}{centre lower 95 percent credible interval (inverse logit-transformed 2.5 percent quantile of posterior logit(centre)).}
+  \item{centre_upper_95}{centre upper 95 percent credible interval (inverse logit-transformed 97.5 percent quantile of posterior logit(centre)).}
+  \item{centre_pvalue}{Bayesian p value for centre (2*Quantile of the null value (logit(0.5)) given the posterior normal distribution for logit(centre)).}
+  \item{mean_log_v}{posterior mean v on the normally distributed latent scale (ln(v)).}
+  \item{var_log_v}{posterior variance of v on the normally distributed latent scale (ln(v)).}
+  \item{mean_logit_centre}{posterior mean centre on the normally distributed latent scale (logit(centre)).}
+  \item{var_logit_centre}{posterior variance of centre on the normally distributed latent scale (logit(centre)).}
+  \item{cov_log_v_logit_centre}{posterior covariance between the multivariate normally distributed ln(v) and (logit(centre)).}
+  \item{npar}{number of parameters for each test subject.}
+  \item{sum_npar}{sum number of parameters across all test subjects.}
 }
 \description{
 Estimate genomic cline parameters, credible intervals and p values.
 }
 \details{
-\code{ggcline} assumes the posterior of \code{log(v)} is normally distributed, and the results for this parameter are 
-  the inverse logs of the estimated mean and upper and lower quantiles of \code{log(v)}. \code{v} is always positive and higher 
+\code{ggcline} assumes the posterior of \code{ln(v)} is normally distributed, and the results for this parameter are 
+  the inverse logs of the estimated mean and upper and lower 95% credible intervals of ln(\code{v}). \code{v} is always positive and higher 
   values for \code{v} indicate steeper clines, with \code{v=1} being the null value. \code{centre} represents the hybrid index
-  at which allele frequencies are half way between those of the parents. It ranges between 0 and 1 and the null value is 0.5.
+  at which allele frequencies are half way between those of the parents. It ranges between 0 and 1 and the null value is 0.5. It 
+  is estimated as logit(\code{centre}), and the posterior mean and credible intervals are inverse logit-transformed back to the 
+  original scale.
 
 While Fitzpatrick (2013) describes parameters, \code{v} (the relative cline slope) and \code{u} (the relative cline position), 
   the parameter \code{u} is difficult to interpret as its range scales to \code{v}. Noting that for the hybrid index itself,
-  \code{u=0} and \code{v=1}, the cline centre (hybrid index value for which allele frequencies are half way between those of
+  \code{u=0} and \code{v=1}, the cline \code{centre} (hybrid index value for which allele frequencies are half way between those of
   the parents: \code{m} in Fitzpatrick's notation) for individual loci has the relationship \code{logit(centre)=u/v}. \code{centre}
   is easier to interpret, and estimating it rather than \code{u} improves MCMC efficiency; hence I estimate \code{centre} 
   rather than \code{u}.
 
-The null value for \code{v} = 1, and for \code{centre} = 0.5. If both parameters are fixed to these or other values, only \code{nitt=2} 
-  and \code{burnin=0} are required.
+If both parameters are fixed to the null or other values, only \code{nitt=2} and \code{burnin=0} are required.
 
-For \code{poolv} and \code{poolcentre}, for the time being the only options are no pooling (\code{FALSE}) or pooling across all 
-  samples in the data set (\code{TRUE}). So if for example you wish to pool one or both parameters for each locus individually 
-  across two transects (rather than across all loci and both transects), the loci must be run individually by subsetting the 
-  \code{data.prep.object} to only include one locus in each run. This is due to a technical issue with sampling from the proposal 
-  distribution when pooling is done within multiple different groups rather than across the whole data set, and should be fixed in 
-  later versions.
+For \code{poolv} and \code{poolcentre}, the options are no pooling (\code{FALSE}) or pooling across all 
+  samples in the data set (\code{TRUE}). So if for example you wish to obtain a single pooled estimate of \code{v} across two transects 
+  for each locus individually (i.e. not the same parameter estimate across all loci), 
+  the loci must be run individually by subsetting the \code{data.prep.object} to only include one locus in each run, using \command{split_data_prep}.
 }
 \examples{
 
 \dontrun{
-gc1=ggcline(
-data.prep.object=prepdata$data.prep,
-esth.object=hindlabel,
-poolv=FALSE,poolcentre=FALSE,                                             #No pooling of parameters for this run#
-test.subject="locusgroup",                                                #Use a field other than the default#
-return.likmeans=TRUE,
-read.data.precols=dat$precols,
-fix.subject.v=c("locusgroup1","locusgroup2"),fix.value.v=1,               #Fixing a subset of test subjects for v#
-fix.subject.centre=c("locusgroup1","locusgroup2"),fix.value.centre=0.5,   #Fixing a subset of test subjects for centre#
-plot.test.subject=c("locusgroup1"),                                       #Real-time plot of the two parameters for locusgroup1#
-plot.col=c("orange"),
-plot.ylim=c(-2,3),
-nitt = 10000, burnin = 5000, print.k = 50)
+###########################################################
+#Read in and prepare data, and run hybrid index estimation#
+###########################################################
+dat=read.data("RB_Italy_ggcline_precol_headers_haploidND2.csv",nprecol=2,MISSINGVAL=NA,NUMINDS=569);
+prepdata=data.prep(data=dat$data,loci=dat$loci,alleles=dat$alleles,S0=c("Kralove","Oslo"),S1="LesinaSPANISH",
+ precols=dat$precols,AF.CIoverlap = FALSE);
+hindlabel=esth(data.prep.object=prepdata$data.prep,read.data.precols=dat$precols,include.Source=TRUE,
+ nitt=3000,burnin=1000);
+
+#################################################################################################################
+#The full set of arguments for ggcline including all defaults (comments indicate which entries are not defaults)#
+#################################################################################################################
+gc=ggcline(
+  data.prep.object=prepdata$data.prep,    #Needs an entry#
+  esth.object=hindlabel,                  #Needs an entry#
+  esth.colname="h_posterior_mode",          #Default. Can be replaced with "beta_mean" from the esth object#
+  test.subject = "locus",
+  poolv = FALSE,
+  poolcentre = FALSE,
+  include.Source = TRUE,                  #Default is FALSE#
+  return.likmeans = TRUE,                 #Default is FALSE#
+  read.data.precols=dat$precols,          #Needs an entry#
+  fix.subject.v = FALSE,
+  fix.value.v,
+  fix.subject.centre = FALSE,
+  fix.value.centre,
+  plot.test.subject = c("A2ML1_SNP1","GTF2H2"), #Plots are just to check the MCMC is working#
+  plot.col = c("orange","cyan"),                #Plots are just to check the MCMC is working#
+  plot.ylim = c(-3, 5),                         #Plots are just to check the MCMC is working#
+  plot.pch.v.centre = c(1, 3),                  #Plots are just to check the MCMC is working#
+  prior.logitcentre = c(0, sqrt(50)),         #Default#
+  prior.logv = c(0, sqrt(10)),                #Default#
+  nitt=5000,                                     #Needs an entry, 5000 should be sufficient for standard per-locus estimates#
+  burnin=2000,                                   #Needs an entry, 2000 should be sufficient for standard per-locus estimates#
+  start.v = NULL,
+  start.centre = NULL,
+  init.var.v = NULL,
+  init.var.centre = NULL,
+  init.cov.vcentre = NULL,
+  print.k = 50
+)
+
+#############################################################################################
+#Estimate a single v parameter across a whole chromosome, but a unique centre for each locus#
+#############################################################################################
+
+#First, add a column to prepdata$data.prep indicating the chromosome for each marker.
+chrom=fread("markerchr.csv");#This contains only the loci retained in prepdata$data.prep after filtering#
+setkey(prepdata$data.prep,locus);setkey(chrom,locus);
+prepdata$data.prep=prepdata$data.prep[chrom];
+
+#Make a data.prep object for the Z chromosome markers only.
+prepZ=prepdata$data.prep[chrom=="Z"]
+
+#First run ggcline for chrZ-only without pooling, for later model comparison.
+gc_unpooled_z=ggcline(data.prep.object=prepZ,esth.object=hindlabel,include.Source = TRUE,
+ return.likmeans = TRUE,               #***Important to set this to TRUE waic for model comparison***#
+ read.data.precols=dat$precols, nitt=5000,burnin=2000)
+
+#Run again but pooling v across all loci. The MCMC is less efficient with pooling, so using longer nitt and burnin.
+gc_poolv_Z=ggcline(data.prep.object=prepZ,esth.object=hindlabel,              
+ poolv = TRUE,                         #***Set to TRUE***#
+ include.Source = TRUE,
+ return.likmeans = TRUE,               #***Important to set this to TRUE for model comparison***#
+ read.data.precols=dat$precols,
+ nitt=10000,                           #Use a longer post-burnin (5000 in this case)#
+ burnin=5000                           #Use a longer burnin#
+)
+
+########################################################################
+#Set up model comparisons by fixing one or both parameters (no pooling)#
+########################################################################
+
+#Run ggcline with both parameters fixed to their null values. This can then be compared with the first run above (gc).
+gc_v_centre_fixed=ggcline(data.prep.object=prepdata$data.prep,esth.object=hindlabel,include.Source = TRUE,
+ return.likmeans = TRUE,               #***Important to set this to TRUE for model comparison***#
+ read.data.precols=dat$precols,
+ fix.subject.v = gc$gc$locus,          #***Character vector of locus names, here taken from the first ggcline run above***#
+ fix.value.v = 1,                      #***The null parameter value on the data scale***#
+ fix.subject.centre = gc$gc$locus,     #***Vector of locus names***#
+ fix.value.centre = 0.5,               #***The null parameter value on the data scale***#
+ nitt=2,                               #MCMC estimation not needed when both parameters are fixed for all test subjects, only nitt=2 is necessary to avoid errors#
+ burnin=0                              #MCMC estimation not needed when both parameters are fixed for all test subjects#
+)
+
+#The comparison would be cleaner if we only fixed one parameter. For example, v.
+gc_v_fixed=ggcline(data.prep.object=prepdata$data.prep,esth.object=hindlabel,include.Source = TRUE,
+ return.likmeans = TRUE,               #***Important to set this to TRUE for model comparison***#
+ read.data.precols=dat$precols,
+ fix.subject.v = gc$gc$locus,          #***Vector of locus names***#
+ fix.value.v = 1,                      #***The null parameter value on the data scale (could also be fixed to some other value)***#
+ #fix.subject.centre = gc$gc$locus,    #Not fixing centre this time#
+ #fix.value.centre = 0.5,              #Not fixing centre this time#
+ nitt=5000,
+ burnin=2000
+)
+
+#This can now be compared with either gc or gc_v_centre_fixed.
+
+##################################################################
+#Prepare to compare parameters estimated at differing resolutions#
+##################################################################
+
+#Run ggcline using chromosome as test.subject rather than locus. We added the column "chrom" to prepdata$data.prep earlier.
+gc_by_chr=ggcline(data.prep.object=prepdata$data.prep,esth.object=hindlabel,
+ test.subject = "chrom",               #***Changed from default***#
+ include.Source = TRUE,return.likmeans = TRUE,read.data.precols=dat$precols,nitt=5000,burnin=2000)
+
+#The column "chrom" is absent from the 'gc' results object created above, and must first be added to both gc$gc and gc$likmeans.
+chrom=fread("markerchr.csv");#This contains only the loci retained in prepdata$data.prep#
+setkey(gc$gc,locus);setkey(chrom,locus);setkey(gc$likmeans,locus);
+gc$gc=gc$gc[chrom];
+gc$likmeans=gc$likmeans[chrom];
+
+#Now model comparison can be carried out at the chromosome level, between gc and gc_by_chr.
 }
 }
 \references{

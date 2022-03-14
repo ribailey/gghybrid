@@ -5,8 +5,13 @@
 \title{Statistical comparison of pairs of either \code{esth} or \code{ggcline} objects with different pooling or fixing of parameters, using the 
   Bayesian widely applicable information criterion (waic).}
 \usage{
-compare.models(ggcline.object1 = NULL, ggcline.object2 = NULL,
-  ggcline.pooled = FALSE, esth.object1 = NULL, esth.object2 = NULL)
+compare.models(
+  ggcline.object1 = NULL,
+  ggcline.object2 = NULL,
+  ggcline.pooled = FALSE,
+  esth.object1 = NULL,
+  esth.object2 = NULL
+)
 }
 \arguments{
 \item{ggcline.object1}{Name of a \code{ggcline} object.}
@@ -22,36 +27,140 @@ all samples in at least one of the two models being compared).}
 \item{esth.object2}{Name of an \code{esth} object.}
 }
 \value{
-A \code{data.table} and \code{data.frame} with the name of the test subject plus following fields:
-  \item{npar1}{number of parameters for the first model.}
-  \item{lppd1}{Sum of the mean posterior likelihoods for the individual data points for the first model.}
-  \item{waic1}{widely applicable information criterion for the first model.}
-  \item{se1}{standard error of waic1.}
+A \code{data.table} and \code{data.frame} with the name of the test subject (when there is more than one) plus following fields:
+  \item{lppd1_sum}{Sum of the mean posterior likelihoods for the individual data points for the first model.}
+  \item{effpar1_sum}{Sum of the effective number of parameters for the individual data points for the first model.}
+  \item{npar1}{True number of parameters for the first model.}
+  \item{waic1_npar1_AICscale}{widely applicable information criterion for the first model using the true number of parameters.}
+  \item{waic1_effpar1_AICscale}{widely applicable information criterion for the first model using the effective number of parameters.}
+  \item{lppd2_sum}{Sum of the mean posterior likelihoods for the individual data points for the second model.}
+  \item{effpar1_sum}{Sum of the effective number of parameters for the individual data points for the second model.}
   \item{npar2}{number of parameters for the second model.}
-  \item{lppd2}{Sum of the mean posterior likelihoods for the individual data points for the second model.}
-  \item{waic2}{widely applicable information criterion for the second model.}
-  \item{se2}{standard error of waic2.}
-  \item{diff}{difference in waic between the first and second models. A positive value favours the first model.}
+  \item{waic2_npar2_AICscale}{widely applicable information criterion for the second model using the true number of parameters.}
+  \item{waic2_effpar2_AICscale}{widely applicable information criterion for the second model using the effective number of parameters.}
+  \item{waicdiff_npar_AICscale}{Difference in waic between the two models using the true number of parameters, with negative values favouring the more complex model.}
+  \item{waicdiff_effpar_AICscale}{Difference in waic between the two models using the effective number of parameters, with negative values favouring the more complex model.}
 }
 \description{
 Statistical comparison of pairs of either \code{esth} or \code{ggcline} objects with different pooling or fixing of parameters, using the 
   Bayesian widely applicable information criterion (waic).
 }
 \details{
-\code{compare.models} uses the actual number of parameters for each model rather than an estimate,
-  which would be applicable in more complex hierarchichal models.
+\code{compare.models} While the calculation of the widely applicable information criterion (waic) normally 
+  involves an estimated effective number of parameters, testing in \code{gghybrid} suggests that this value is 
+  systematically overestimated. \code{compare.models} presents the estimated effective number of parameters and the 
+  resulting waic and difference in waic, in columns including \sQuote{effpar} in the heading, but always produces a 
+  warning to instead use the equivalent \sQuote{npar} columns, which use the actual number of estimated parameters 
+  in the calculations. This produces results closely comparable with AIC.
+
+Unlike the \code{calc_Aic} function, which calculates AIC for a single model, \code{compare.models} is set up to 
+  compare two models, and therefore requires two \code{esth} or two \code{ggcline} objects as input.
+
+waic is calculated as \code{-2*lppd + 2*npar}, and is therefore on the same scale as AIC, for direct comparison.
 }
 \examples{
 
 \dontrun{
-#A comparison of individual-level hybrid index estimates with population-level hybrid index estimates, to see if there is 
-#evidence of individuals within populations differing in hybrid index:
-esthcomp=compare.models(hest.object1=hindlabel,
-hest.object2=hpopid)
-#A comparison of genomic cline estimates versus likelihoods of genomic clines with the two parameters fixed to null values (an 
-#alternative way of testing significance to the p values presented in \\code{ggcline}):
-gclinecomp=compare.models(ggcline.object1=gc1,
-ggcline.object2=gcAllFixed)
+####################################################################################################
+####################################################################################################
+#Comparison of hybrid index estimated at two different resolutions, individual and population level#
+####################################################################################################
+####################################################################################################
+
+#Read and prepare the sparrow data, and run esth with INDLABEL and POPID respectively as test.subject.
+dat=read.data("RB_Italy_ggcline_precol_headers_haploidND2.csv",nprecol=2,MISSINGVAL=NA,NUMINDS=569);
+prepdata=data.prep(data=dat$data,loci=dat$loci,alleles=dat$alleles,S0=c("Kralove","Oslo"),S1="LesinaSPANISH",precols=dat$precols,AF.CIoverlap = FALSE);
+
+#Get the individual level hybrid index estimates.
+hindlabel=esth(
+ data.prep.object=prepdata$data.prep,
+ read.data.precols=dat$precols,
+ test.subject = "INDLABEL",                  #default#
+ test.subject.compare = "POPID",             #***the test.subject you want to compare with the current test.subject***#
+ include.Source=TRUE,
+ return.likmeans=TRUE,                       #Must be set to TRUE before using compare.models#
+ nitt=3000,
+ burnin=1000
+ )
+
+#Run esth again, with test.subject="POPID". No need to declare 'test.subject.compare' when running the lower resolution model.
+hindlabel2=esth(
+ data.prep.object=prepdata$data.prep,
+ read.data.precols=dat$precols,
+ test.subject = "POPID",                     #***Changed to "POPID"***#
+ include.Source=TRUE,
+ return.likmeans=TRUE,                       #Must be set to TRUE before using compare.models#
+ nitt=3000,
+ burnin=1000
+ )
+
+#Compare waic between the two models for each POPID.
+comp1=compare.models(esth.object1=hindlabel,esth.object2=hindlabel2);
+
+#Order by the difference in waic between the two models. Negative values for 'waicdiff_npar_AICscale' favour the individual level model.
+comp1[order(waicdiff_npar_AICscale)]
+
+################################
+################################
+#Genomic cline model comparison#
+################################
+################################
+
+##############################################################
+#Parameter v pooled versus unpooled across a whole chromosome#
+##############################################################
+
+#Calculate a single waic for the sparrow Z chromosome for two ggcline models run in the examples under ggcline, 
+#one with v pooled and one unpooled.
+
+#A negative value for 'waicdiff_npar_AICscale' indicates support for the more complex model, with v estimated independently per locus.
+gclinecomp=compare.models(
+ ggcline.object1=gc_unpooled_z,
+ ggcline.object2=gc_poolv_Z,
+ ggcline.pooled=TRUE              #Default is FALSE. This must be set to TRUE when one of the ggcline runs includes pooling#
+)
+
+#############################################################################################################
+#At the individual locus level, compare a model with v and centre estimated versus a model with v fixed at 1#
+#############################################################################################################
+
+#Compare the ggcline objects gc (no fixing) and gc_v_fixed created in the ggcline examples.
+
+gclinecomp_vfixed=compare.models(
+ ggcline.object1=gc_v_fixed,
+ ggcline.object2=gc,
+ ggcline.pooled=FALSE              #No pooling so use the default FALSE#
+)
+
+#This time we get a separate estimate of difference in waic per locus. Negative values for 'waicdiff_npar_AICscale' support deviation from v=1.
+gclinecomp_vfixed[order(waicdiff_npar_AICscale)]
+
+#########################################################
+#Comparing differing resolutions at the lower resolution#
+#########################################################
+
+#Compare the ggcline objects gc (1 cline per locus) and gc_by_chr (1 cline per chromosome) created in the ggcline examples.
+
+#If the column "chrom" is absent from the 'gc' results object and the prepdata$data.prep object, it must first be added.
+chrom=fread("markerchr.csv")#This contains only the loci retained in prepdata$data.prep#
+
+setkey(prepdata$data.prep,locus);setkey(chrom,locus);
+prepdata$data.prep=prepdata$data.prep[chrom]
+
+setkey(gc$gc,locus);setkey(chrom,locus);setkey(gc$likmeans,locus);
+gc$gc=gc$gc[chrom];
+gc$likmeans=gc$likmeans[chrom]
+
+#This produces one model comparison per chromosome.
+gclinecomp_chr=compare.models(
+ ggcline.object1=gc,
+ ggcline.object2=gc_by_chr,
+ ggcline.pooled=FALSE              #No pooling so use the default FALSE#
+)
+
+#Again, negative values for 'waicdiff_npar_AICscale' favour the more complex model (independent cline parameters per 
+#locus within each chromosome).
+gclinecomp_chr[order(waicdiff_npar_AICscale)]
 }
 }
 \author{
