@@ -1,7 +1,7 @@
 # gghybrid
 R package for analysis of hybrids and hybrid zones. Currently includes hybrid index and genomic cline estimation for bi-allelic genomic data.
 
-Note: New version 2.0.0 14 March 2022.
+Note: New version 2.0.0 20 March 2022.
 
 To cite package ‘gghybrid’ in publications use:
 
