@@ -5,7 +5,7 @@ Note: New version 2.0.0 14 March 2022.
 
 To cite package ‘gghybrid’ in publications use:
 
-Richard Ian Bailey. (2022). ribailey/gghybrid: gghybrid R package for Bayesian hybrid index and genomic cline estimation (v2.0.0). Zenodo. https://doi.org/10.5281/zenodo.6353157
+Richard Ian Bailey. (2022). ribailey/gghybrid: gghybrid R package for Bayesian hybrid index and genomic cline estimation (v2.0.0). Zenodo. DOI: https://doi.org/10.5281/zenodo.3676498
 
 Latest example code is in the file 'Example_code_RIBailey.R ', and the accompanying data set was downloaded and prepared from here: https://www.datadryad.org/resource/doi:10.5061/dryad.v6f4d
 
