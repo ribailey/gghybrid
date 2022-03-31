@@ -3,6 +3,19 @@ R package for analysis of hybrids and hybrid zones. Currently includes hybrid in
 
 Note: New version 2.0.0 20 March 2022.
 
+#############################################################################################################
+###Important updates for version 2.0.0 causing compatibility issues with code written for earlier versions###
+#############################################################################################################
+1. In 'read.data' the number of individuals must now be specified using the 'NUMINDS' option. The number 
+   of loci does not need to be specified, although a warning will be produced if it is left blank.
+2. Column names have changed for the genomic cline results in the ggcline$gc output object: 
+ - 'v_mean' (old - the best posterior estimate for cline v) is now 'exp_mean_log_v', to reflect the fact that ggcline estimates log(v), then calculates best posterior v and its credible intervals at the end.
+ - 'centre_mean' (old - the best posterior estimate for cline centre) is now 'invlogit_mean_logit_centre', to reflect the fact that ggcline estimates logit(centre), then calculates best posterior centre and its credible intervals at the end.
+3. The new 'plot_clinecurve' function no longer plots data, only the cline curve. However, individual genotypes can be added to the plot. Furthermore, samples from the posterior for genomic cline estimates can be taken using the new function 'rtmvnormDT3', a cline calculated for each, and these can be added to the plot to indicate uncertainty. Please see examples in the new help file using '?plot_clinecurve'.
+#############################################################################################################
+#############################################################################################################
+#############################################################################################################
+
 To cite package ‘gghybrid’ in publications use:
 
 Richard Ian Bailey. (2022). ribailey/gghybrid: gghybrid R package for Bayesian hybrid index and genomic cline estimation (v2.0.0). Zenodo. DOI: https://doi.org/10.5281/zenodo.3676498
